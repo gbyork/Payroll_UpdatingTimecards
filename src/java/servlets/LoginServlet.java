@@ -17,6 +17,7 @@ import Database.PayrollDA;
 import Database.EmployeeDA;
 import Database.TimecardDA;
 import Database.WithholdingDA;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -54,12 +55,12 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-                response.getWriter().println();
-                
-            out.println("<h1>" + PrSystem.Employees + "</h1>");
-            
+
             boolean loggedIn = PrSystem.Login(username, password);
             if (loggedIn) {
+                HttpSession session = request.getSession();
+                session.setAttribute("username",username);
+                session.setAttribute("password",password);
                 response.sendRedirect("welcome.jsp");
                 
             } else {

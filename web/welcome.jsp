@@ -9,10 +9,14 @@
 <body>
     <h1>Welcome aboard!</h1>
     <p>Here is the information that you entered:</p>
+    
+    
+    
     <label>UserID:</label>
-    <span>${UserID}</span><br>
+    <span>${username}</span><br>
+    
     <label>Password:</label>
-    <span>${Password}</span><br>
+    <span>${password}</span><br>
 
     <p>Have a great day!</p>
 
