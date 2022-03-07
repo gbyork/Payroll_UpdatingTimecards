@@ -17,6 +17,9 @@ import Database.PayrollDA;
 import Database.EmployeeDA;
 import Database.TimecardDA;
 import Database.WithholdingDA;
+import Presentation.LoginException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -38,7 +41,7 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     public void init() {
-        EmployeeDA empDb = new EmployeeDA(); 
+        EmployeeDA empDb = new EmployeeDA();
         PrSystem = new PayrollSystem();
         PrSystem.Employees = empDb.getEmployees();
     }
@@ -48,29 +51,34 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("UserID");
         String password = request.getParameter("Password");
         //PayrollSystem will be initialized into this for checking that UserID and Password match
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-
+            
             boolean loggedIn = PrSystem.Login(username, password);
+
             if (loggedIn) {
                 HttpSession session = request.getSession();
-                session.setAttribute("username",username);
-                session.setAttribute("password",password);
+                session.setAttribute("username", username);
+                session.setAttribute("password", password);
                 response.sendRedirect("welcome.jsp");
-                
-            } else {
-                response.sendRedirect("login.jsp");
-                response.getWriter().println("error info doesn't match");
- 
-                
-                out.println("<h1> Info should be Username: " + request.getAttribute(username) + "Password: "+ request.getAttribute(password) + "</h1>");
-            }
 
+            } else {
+
+                try {
+                    throw new LoginException("Access denied - Username and password are incorrect");
+                } catch (LoginException ex) {
+
+                    HttpSession session = request.getSession();
+                    session.setAttribute("msg", ex.getMessage());
+
+                }
+                response.sendRedirect("login.jsp");
+            }
             out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");

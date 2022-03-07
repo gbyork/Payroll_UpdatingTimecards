@@ -20,7 +20,7 @@
         <input type="Password" name="Password" value="${Password}"><br>
         
         <input type="submit" value="login" class="margin_left">    
-        
+        <h2 type="error" value="${msg}"> </h2>
     </form>
         
    
