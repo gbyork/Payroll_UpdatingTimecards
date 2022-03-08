@@ -4,16 +4,17 @@ import Database.TimecardDA;
 import java.util.Date;
 import java.util.ArrayList;
 import Database.PayrollDA;
+import java.io.Serializable;
 
 /**
  *
  * @author rando
  */
-public class HourlyEmployee extends Employee {
+public class HourlyEmployee extends Employee implements Serializable {
 
     private double HourlyRate;
     private double Overtime;
-    private Timecard EmployeeTimecard;
+    public Timecard EmployeeTimecard;
     private Payroll HourlyPayroll;
     private Withholding HourlyEmployeeWithholding;
     

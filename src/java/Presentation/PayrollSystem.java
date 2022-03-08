@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 //This class will be an initalized class that will be used to transfer info to servlet
 //This will act similar to an api
+
 public class PayrollSystem {
     
     public boolean IsAuthenticated; 

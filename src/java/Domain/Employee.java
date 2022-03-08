@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import Domain.Withholding;
 import Database.WithholdingDA;
+import java.io.Serializable;
 
 /**
  *
  * @author rando
  */
-public abstract class Employee {
+public abstract class Employee implements Serializable {
 // In this class I will need to make method FindByUserID
 
     public String FirstName;

@@ -6,13 +6,14 @@
 package Domain;
 
 import Database.WithholdingDA;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author rando
  */
-public class Withholding {
+public class Withholding implements Serializable{
 
     public int EmployeeID;
     public String Description;

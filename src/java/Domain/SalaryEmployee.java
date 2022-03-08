@@ -6,6 +6,7 @@
 package Domain;
 
 import Database.EmployeeDA;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
  *
  * @author rando
  */
-public class SalaryEmployee extends Employee {
+public class SalaryEmployee extends Employee implements Serializable {
 
     public double AnnualSalary;
     private Payroll SalaryPayroll;

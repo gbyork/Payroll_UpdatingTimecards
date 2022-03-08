@@ -9,6 +9,7 @@ import Database.EmployeeDA;
 import Database.PayrollDA;
 import Database.TimecardDA;
 import Database.WithholdingDA;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,7 +17,7 @@ import java.util.Date;
  *
  * @author rando
  */
-public class Payroll {
+public class Payroll implements Serializable {
 
     public Date Date;
     public int EmployeeID;

@@ -25,7 +25,7 @@ public class PayrollDA {
         
         Payroll a;
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2022, 1, 12);
+        calendar.set(2022, 1, 11);
         a = new Payroll();
         a.setDate(calendar.getTime());
         a.setEmployeeID(101);
@@ -39,7 +39,7 @@ public class PayrollDA {
          */
         Payrolls.add(a);
 
-        calendar.set(2022, 1, 12);
+        calendar.set(2022, 1, 11);
         a = new Payroll();
         a.setDate(calendar.getTime());
         a.setEmployeeID(102);

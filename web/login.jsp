@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
 </head>
      
 <body>
-    
+    <h2 type="alert" value="${msg}"> </h2><br>
     <h1> Login Screen</h1>
     
     <form action="login" method="post">
@@ -20,7 +21,7 @@
         <input type="Password" name="Password" value="${Password}"><br>
         
         <input type="submit" value="login" class="margin_left">    
-        <h2 type="error" value="${msg}"> </h2>
+        <h2 type="error" value="${msg}"> </h2><br>
     </form>
         
    

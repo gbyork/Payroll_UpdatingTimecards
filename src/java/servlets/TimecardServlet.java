@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,31 +5,25 @@
  */
 package servlets;
 
+import Database.EmployeeDA;
+import Domain.Employee;
+import Domain.HourlyEmployee;
+import Domain.Timecard;
 import Presentation.PayrollSystem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Database.PayrollDA;
-import Database.EmployeeDA;
-import Database.TimecardDA;
-import Database.WithholdingDA;
-import Domain.Employee;
-import Presentation.LoginException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author rando
  */
-
-public class LoginServlet extends HttpServlet {
-
-    PayrollSystem PrSystem;
+public class TimecardServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,57 +34,36 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    public void init() {
-        EmployeeDA empDb = new EmployeeDA();
-        PrSystem = new PayrollSystem();
-        PrSystem.Employees = empDb.getEmployees();
-    }
-
+    
+   // @Override
+    //public void init() {
+   //     EmployeeDA empDb = new EmployeeDA();
+   //     TimecardDA timeDb = new TimecardDA();
+   // }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("UserID");
-        String password = request.getParameter("Password");
         
-        //PayrollSystem will be initialized into this for checking that UserID and Password match
+        HttpSession session = request.getSession();
         
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
         
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            try {
-                boolean loggedIn = PrSystem.Login(username, password);
-
-                if (loggedIn) {
-                    HttpSession session = request.getSession();
-                    
-                    session.setAttribute("username", username);
-                    session.setAttribute("password", password);
-                    response.sendRedirect("welcome.jsp");
-
-                } else {
-                    
-                    throw new LoginException("Access denied - Username and password are incorrect");
-
-                }
-            } catch (LoginException ex) {
-                
-                HttpSession session = request.getSession();
-                session.setAttribute("msg", ex.getMessage());
-                response.sendRedirect("login.jsp");
-            }
-
-            out.println("<title>Servlet LoginServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-
-            out.println("</body>");
-            out.println("</html>");
-
+        String option = request.getParameter("option");
+        System.out.println("TimecardServlet        option"  + option);
+        //need to get all items intialized in new class payrollDA and call that initialize here
+        
+        String url = "/main.jsp";
+        if (option.equals("list")) {
+           Employee employee = (Employee)session.getAttribute("employee");
+           System.out.println("employee: " + employee);
+           
+     //      
+     //      ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employee.getEmployeeID());
+         //  session.setAttribute("timecards", timecards);
+         //  url = "/timecardList.jsp";
+           
+           //Strong had good advice, ONE STEP AT A TIME break up parts
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -134,3 +106,8 @@ public class LoginServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
+//  3/14/2022 Overall amazing progress, got all buttons added and they redirect to where they are suppose to go
+//   even started analyzing examples of assignment 2, possibly try serializing all domain classes.
+//  Tomorrow's goal should be to - get messages working for salaryemployee and message for calculate
+// 
