@@ -9,6 +9,8 @@ import Domain.Employee;
 import Domain.SalaryEmployee;
 import Domain.HourlyEmployee;
 import Database.EmployeeDA;
+import Database.PayrollDA;
+import Domain.Timecard;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -25,7 +27,8 @@ public class PayrollSystem {
     public Employee LoggedInEmployee; 
     public ArrayList<Employee> Employees; 
     
-            
+     
+           
     public boolean Login (String username, String password) {
         Employee employee = null; 
         for (Employee e : this.Employees) {

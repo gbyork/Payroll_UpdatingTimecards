@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
         PrSystem = new PayrollSystem();
         PrSystem.Employees = empDb.getEmployees();
     }
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("UserID");

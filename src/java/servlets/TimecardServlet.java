@@ -14,6 +14,7 @@ import Presentation.PayrollSystem;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,19 +43,19 @@ public class TimecardServlet extends HttpServlet {
     // }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        ServletContext sc = getServletContext();
         HttpSession session = request.getSession();
 
         String option = request.getParameter("option");
         System.out.println("TimecardServlet        option" + option);
-        
+
         if (option.equals("nope")) {
             String NotReady = "This feature has not been added yet";
             session.setAttribute("NotReady", NotReady);
             response.sendRedirect("welcome.jsp");
 
         }
-        //  String url = "/welcome.jsp";
+        String url = "/welcome.jsp";
         if (option.equals("list")) {
             Employee employees = (Employee) session.getAttribute("employee");
             System.out.println("employee: " + employees);
@@ -62,32 +63,61 @@ public class TimecardServlet extends HttpServlet {
             System.out.println("timecard: " + EmployeeTimecards);
             session.setAttribute("employee", employees);
             session.setAttribute("timecards", EmployeeTimecards);
+            response.sendRedirect("timecardList.jsp"); 
+        
+        
+        } else if (option.equals("delete")) {
+            Employee employees = (Employee) session.getAttribute("employee");
+            ArrayList<Timecard> EmployeeTimecards = employees.EmployeeTimecards;
+            employees.deleteTimecard(tc);
+            session.setAttribute("timecards", EmployeeTimecards);
             response.sendRedirect("timecardList.jsp");
             
+ 
+        } else if (option.equals("update")) {
+            int quantity;
+            Employee employees = (Employee) session.getAttribute("employee");
+            employees.updateTimecard(tc);
             
-            //    session.setAttribute("");
-            //   employee.addTimeCard(t);
-            //
-            //    ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employee.getEmployeeID());
-            //    session.setAttribute("timecards", timecards);
-            //  response.sendRedirect("timecardList.jsp");
-              
-            //Strong had good advice, ONE STEP AT A TIME break up parts
-        }
+            //String productCode = request.getParameter("productCode");
+           // String quantityString = request.getParameter("quantity");
 
+           // try {
+           //     quantity = Integer.parseInt(quantityString);
+           // } catch (NumberFormatException e) {
+           //     quantity = 1;
+            }
+
+            //       employees.updateTimecard(productCode, quantity);
+            //       session.setAttribute("timecards", EmployeeTimecards);
+            //       url = "/cart.jsp";
+        
+        sc.getRequestDispatcher(url)
+                .forward(request, response);
     }
+    //    session.setAttribute("");
+    //   employee.addTimeCard(t);
+    //
+    //    ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employee.getEmployeeID());
+    //    session.setAttribute("timecards", timecards);
+    //  response.sendRedirect("timecardList.jsp");
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    //Strong had good advice, ONE STEP AT A TIME break up parts
+
+
+
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+/**
+ * Handles the HTTP <code>GET</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -101,7 +131,7 @@ public class TimecardServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -112,7 +142,7 @@ public class TimecardServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+        public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
@@ -133,3 +163,5 @@ public class TimecardServlet extends HttpServlet {
 //plugged into Servlet, when running it appears that Employee is passing as null though
 // I need to look through code to see what could be causing it. My first idea is that it is
 // because of PayrollSystem.java class
+// More fat progress!! Added add,update,and delete methods into servlet so now they are called here
+// issue seen with "tc" not being recognized, but overall this is looking pretty good!

@@ -107,8 +107,7 @@ public abstract class Employee implements Serializable {
         return 0.0;
     }
     
-    public void addTimeCard(Timecard t) {
-    }
+    
 
     public void setOvertime(double a) {
     }
@@ -152,5 +151,24 @@ public abstract class Employee implements Serializable {
     public void setPassword(String Password) {
         this.Password = Password;
     }
-
+    public void addTimeCard(Timecard t) {
+    }
+    public Timecard getTimecard(int id) {
+        return null;
+        
+    }
+       
+    
+    public void updateTimecard(Timecard tc) {
+        
+        }
+    
+    public void deleteTimecard(Timecard tc) {
+       
+    }
+    
+    private int getIndexOfTimecard(Timecard t) {
+        return 0;
+        
+    }
 }
