@@ -24,6 +24,7 @@ public abstract class Employee implements Serializable {
     public String Password;
     public boolean IsAuthenticated;
     public Employee LoggedInEmployee;
+    public ArrayList<Timecard> EmployeeTimecards;
     public ArrayList<Employee> Employees;
 
     public Employee() {
@@ -41,7 +42,6 @@ public abstract class Employee implements Serializable {
 
     }
 
-  
 
     public void setWithholding(Withholding wh) {
         this.EmployeeWithholding = wh;
@@ -105,6 +105,9 @@ public abstract class Employee implements Serializable {
 
     public double getHourlyrate() {
         return 0.0;
+    }
+    
+    public void addTimeCard(Timecard t) {
     }
 
     public void setOvertime(double a) {

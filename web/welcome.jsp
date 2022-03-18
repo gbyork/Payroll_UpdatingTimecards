@@ -25,16 +25,12 @@
         </form>
 
 
-        <form action="" method="post">
-            <script>
-                function NotAdded() {
-
-                    alert("This has not been added yet.");
-                }
-            </script>
+        <form action="timecard" method="post">
+            <input type="hidden" name="option" value="nope">
             <input type="submit" value="Select">
+            ${NotReady}
             <label> Calculate Payroll </label>
-
+            
 
             <span> </span><br>
         </form>

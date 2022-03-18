@@ -3,8 +3,11 @@ package Database;
 import Domain.Employee;
 import Domain.SalaryEmployee;
 import Domain.HourlyEmployee;
+import Domain.Timecard;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 /**
  *
@@ -13,17 +16,14 @@ import java.util.ArrayList;
 public class EmployeeDA {
 
     private static ArrayList<Employee> Employees = new ArrayList<Employee>();
-
     public EmployeeDA() {
         
-        //Employee a; giving errors with subclass attributes 
-//(for example: weeklysalary and hourly rate will both give errors and request you make them in domain.employee)
+       
         Employee a;
 
-//     Employee a; giving errors with subclass attributes, unable to define them
-//     not sure why abstract class is so strict on its constructors
 
 
+        Random random = new Random(); 
         a = new HourlyEmployee();
         a.setFirstName("Robert");
         a.setLastName("Jones");
@@ -33,6 +33,21 @@ public class EmployeeDA {
         a.setSocialSecurityNumber(523094784);
         a.setUserID("User1");
         a.setPassword("user1");
+        
+        
+        for (int i = 0; i < (random.nextInt(99) + 1); i++) {
+            Timecard t = new Timecard(); 
+            t.Date = new Date(); 
+            t.EmployeeID = 103; 
+            double min = 0.1; 
+            double max = 70.0; 
+            double x = (Math.random() * ((max - min) + 1)) + min; 
+            double xround = Math.round(x * 100.0) / 100.0; 
+            t.HoursWorked =xround; 
+            t.Overtime = 0.5; 
+            t.Id = i+1; 
+            a.addTimeCard(t);
+        }
         Employees.add(a);
         
         a = new HourlyEmployee();

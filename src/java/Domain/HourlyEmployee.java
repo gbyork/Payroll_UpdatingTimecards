@@ -14,7 +14,7 @@ public class HourlyEmployee extends Employee implements Serializable {
 
     private double HourlyRate;
     private double Overtime;
-    public Timecard EmployeeTimecard;
+  //  public ArrayList<Timecard> EmployeeTimecards;
     private Payroll HourlyPayroll;
     private Withholding HourlyEmployeeWithholding;
     
@@ -28,24 +28,60 @@ public class HourlyEmployee extends Employee implements Serializable {
         this.HourlyPayroll = pr;
     }
 
-    public void setTimeCard(Timecard tc) {
-        this.EmployeeTimecard = tc;
-        this.Overtime = tc.Overtime;
+    @Override 
+    public void addTimeCard(Timecard tc) {
+        if (EmployeeTimecards == null) {
+            EmployeeTimecards = new ArrayList<>(); 
+        }
+        EmployeeTimecards.add(tc);
     }
+    
+    public Timecard getTimecard(int id) {
+        if (EmployeeTimecards == null) {
+            return null; 
+        }
+        else {
+            for (Timecard tc : this.EmployeeTimecards) {
+                if (id == tc.Id) {
+                    
+                   return tc; 
+                }  
+            }
+            return null;
+        }
+    }
+    
+    public void updateTimecard(Timecard tc) {
+        if (this.getIndexOfTimecard(tc) > 0) {
+            this.EmployeeTimecards.set(this.getIndexOfTimecard(tc), tc);
+        }
+    }
+    public void deleteTimecard(Timecard tc) {
+        if (this.getIndexOfTimecard(tc) > 0) {
+            this.EmployeeTimecards.remove(this.getIndexOfTimecard(tc));
+        }
+    }
+    
+    private int getIndexOfTimecard(Timecard t) {
+        Timecard match;
+        int idx = 0; 
+        for (Timecard tc : this.EmployeeTimecards) {
+            if (t.Id == tc.Id) {
+                idx = this.EmployeeTimecards.indexOf(tc); 
+            }
+        }
+        return idx; 
+    }
+    
+    // CRUD - Create Read Update Delete implementing this concept into
+    // this code and should do the same for other classes such as
+    //payroll and withholdings in Domain.Employee when the time comes
 
-    @Override
+   /* @Override
     public void findWithholdings(ArrayList<Withholding> Withholdings) {
         for (Withholding withholding : Withholdings) {
             if (withholding.EmployeeID == this.EmployeeID) {
                 this.setWithholding(withholding);
-            }
-        }
-    }
-
-    public void findTimecard(ArrayList<Timecard> Timecards) {
-        for (Timecard timecard : Timecards) {
-            if (timecard.EmployeeID == this.EmployeeID) {
-                this.setTimeCard(timecard);
             }
         }
     }
@@ -57,7 +93,7 @@ public class HourlyEmployee extends Employee implements Serializable {
             }
         }
     }
-
+*/
     public Withholding getWithholding() {
         return this.HourlyEmployeeWithholding;
     }
@@ -66,8 +102,8 @@ public class HourlyEmployee extends Employee implements Serializable {
         return this.HourlyPayroll;
     }
 
-    public Timecard getTimeCard() {
-        return this.EmployeeTimecard;
+    public ArrayList<Timecard> getTimeCards() {
+        return this.EmployeeTimecards;
     }
 
     public HourlyEmployee() {
@@ -95,20 +131,18 @@ public class HourlyEmployee extends Employee implements Serializable {
     public void setOvertime(double Overtime) {
         this.Overtime = Overtime;
     }
-    //timecard will loop through this in timecard DA
-
-    @Override
-    public double CalculateGrossPay() {
-        return (HourlyRate * EmployeeTimecard.HoursWorked) + (1.5 * HourlyRate * Overtime);
+   
+    
+    public double CalculateGrossPay(Timecard tc) {
+        return (HourlyRate * tc.HoursWorked) + (1.5 * HourlyRate * Overtime);
     }
 
     public double getTotalDeductions() {
         return HourlyEmployeeWithholding.Amount;
     }
 
-    @Override
-    public double CalculateNetPay() {
-        return ((HourlyRate * EmployeeTimecard.HoursWorked) + (1.5 * HourlyRate * Overtime))-HourlyEmployeeWithholding.Amount;
+    public double CalculateNetPay(Timecard tc) {
+        return ((HourlyRate * tc.HoursWorked) + (1.5 * HourlyRate * Overtime))-HourlyEmployeeWithholding.Amount;
     }
 
     /*@Override

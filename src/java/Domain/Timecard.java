@@ -23,6 +23,7 @@ public class Timecard implements Serializable{
     public int EmployeeID;
     public double HoursWorked;
     public double Overtime;
+    public int Id; 
 
     public Timecard() {
 
