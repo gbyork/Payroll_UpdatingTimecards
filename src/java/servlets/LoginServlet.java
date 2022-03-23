@@ -82,43 +82,7 @@ public class LoginServlet extends HttpServlet {
         
     }
 
-/*   if (loggedIn==Employees) {
-                    HttpSession session = request.getSession();
-                    
-                    
-                    
-                    //employee equals logins
-                    //employee setattribute
-                    session.setAttribute("username", username);
-                    session.setAttribute("password", password);
-                    //session.setAttribute("employee", employee);
-                    response.sendRedirect("welcome.jsp");
-                    
-                    
-                    
-                } else {
 
-                    throw new LoginException("Access denied - Username and password are incorrect");
-
-                }
-            } catch (LoginException ex) {
-
-                HttpSession session = request.getSession();
-                session.setAttribute("msg", ex.getMessage());
-                response.sendRedirect("login.jsp");
-            }
- *//*
-        out.println("<title>Servlet LoginServlet</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-
-        out.println("</body>");
-        out.println("</html>");
-
-    }
-
-return null;*/
 
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
