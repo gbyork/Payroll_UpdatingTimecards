@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Database.PayrollDA;
 import Database.EmployeeDA;
+import Database.PayrollSystemDA;
 import Database.TimecardDA;
 import Database.WithholdingDA;
 import Domain.Employee;
 import Presentation.LoginException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -27,9 +29,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author rando
  */
-
 public class LoginServlet extends HttpServlet {
 
+    public ArrayList<Employee> Employees;
     PayrollSystem PrSystem;
 
     /**
@@ -43,56 +45,78 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     public void init() {
+
         EmployeeDA empDb = new EmployeeDA();
         PrSystem = new PayrollSystem();
         PrSystem.Employees = empDb.getEmployees();
+
     }
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+
+    protected ArrayList<Employee> processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        PayrollSystemDA.initialize();
         String username = request.getParameter("UserID");
         String password = request.getParameter("Password");
-        
+
         //PayrollSystem will be initialized into this for checking that UserID and Password match
-        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-        
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            try {
-                boolean loggedIn = PrSystem.Login(username, password);
+            
+            
+            Employee loggedIn = PrSystem.Login(username, password);
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
+            session.setAttribute("password", password);
+            session.setAttribute("employee", loggedIn);
+            response.sendRedirect("welcome.jsp");
 
-                if (loggedIn) {
+        }
+        return null;
+    }
+        /*   if (loggedIn==Employees) {
                     HttpSession session = request.getSession();
                     
+                    
+                    
+                    //employee equals logins
+                    //employee setattribute
                     session.setAttribute("username", username);
                     session.setAttribute("password", password);
+                    //session.setAttribute("employee", employee);
                     response.sendRedirect("welcome.jsp");
-
-                } else {
                     
+                    
+                    
+                } else {
+
                     throw new LoginException("Access denied - Username and password are incorrect");
 
                 }
             } catch (LoginException ex) {
-                
+
                 HttpSession session = request.getSession();
                 session.setAttribute("msg", ex.getMessage());
                 response.sendRedirect("login.jsp");
             }
+         *//*
+        out.println("<title>Servlet LoginServlet</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
 
-            out.println("<title>Servlet LoginServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+        out.println("</body>");
+        out.println("</html>");
 
-            out.println("</body>");
-            out.println("</html>");
-
-        }
     }
+
+return null;*/
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -104,7 +128,7 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -118,7 +142,7 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -129,7 +153,7 @@ public class LoginServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+        public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

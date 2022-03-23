@@ -6,12 +6,43 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/> 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Timecard List Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        
+        <h1>List Timecards</h1>
+        <table>
+            <tr>
+                <th>Employee</th>
+                <th class="right">Employee</th>
+                <th class="right">Hours</th>
+                <th>&nbsp;</th>
+            </tr>
+            <c:forEach var="card" items="${timecards}">
+                <tr>
+                    <td>${card.EmployeeID}</td>
+                    <td class = "right">${card.HoursWorked}</td>
+                    <td>
+                        <form action="timecard" method="post">
+                            <input type="hidden" name="option" value="edit">
+                            <input type="hidden" name="timecardID" value="<c:out value='${card.ID}'/>">
+                            <input type="submit" value="Edit">
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+                
+        </table>
+         <form action="timecard" method="post">
+            <input type="hidden" name="option" value="add">
+            <input type="submit" value="Add">
+            <label> Add </label>
+            <span> </span><br>
+        </form>
     </body>
 </html>

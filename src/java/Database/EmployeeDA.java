@@ -16,9 +16,9 @@ import java.util.Random;
 public class EmployeeDA {
 
     private static ArrayList<Employee> Employees = new ArrayList<Employee>();
-    public EmployeeDA() {
+    
         
-       
+    public static void initialize() {
         Employee a;
 
 

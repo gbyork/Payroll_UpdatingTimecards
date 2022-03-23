@@ -145,14 +145,14 @@ public class HourlyEmployee extends Employee implements Serializable {
         return ((HourlyRate * tc.HoursWorked) + (1.5 * HourlyRate * Overtime))-HourlyEmployeeWithholding.Amount;
     }
 
-    /*@Override
+    @Override
     public String toString() {
         return " HourlyEmployee{ " + " FirstName= " + FirstName + ", lastName= " + LastName + ", EmployeeID= " + EmployeeID + " , SocialSecurityNumber= " + SocialSecurityNumber + " HourlyRate= " + HourlyRate + " Overtime= " + Overtime + '}';
     }
     // get timecard and add up the hours here
     // need to link timecard with employees before this works
    
-     */
+     
 }
 
 // Hourly Employee will have the attributes: hourly rate and 

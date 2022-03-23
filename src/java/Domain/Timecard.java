@@ -35,6 +35,8 @@ public class Timecard implements Serializable{
         this.HoursWorked = HoursWorked;
         this.Overtime = Overtime;
     }
+    
+    
 
     public Date getDate() {
         return Date;
@@ -70,6 +72,14 @@ public class Timecard implements Serializable{
     
     public static ArrayList<Timecard> getTimecard() {
         return TimecardDA.getTimecard();
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
     }
       
     

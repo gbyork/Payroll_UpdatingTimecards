@@ -10,6 +10,7 @@ import Domain.SalaryEmployee;
 import Domain.HourlyEmployee;
 import Database.EmployeeDA;
 import Database.PayrollDA;
+import Database.PayrollSystemDA;
 import Domain.Timecard;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class PayrollSystem {
     
      
            
-    public boolean Login (String username, String password) {
+    public Employee Login (String username, String password) {
         Employee employee = null; 
         for (Employee e : this.Employees) {
             if (username.equals(e.UserID)) {
@@ -38,17 +39,17 @@ public class PayrollSystem {
         }
         if (employee == null) {
             IsAuthenticated = false;  
-            return false; 
+            return employee;
         }
         else {
             if (password.equals(employee.Password)) {
                 IsAuthenticated = true;
                 LoggedInEmployee = employee; 
-                return true; 
+                return employee; 
             }
             else {
                 IsAuthenticated = false;
-                return false; 
+                return employee; 
             }
         }
     }

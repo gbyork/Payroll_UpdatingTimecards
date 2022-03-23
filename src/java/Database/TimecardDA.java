@@ -16,7 +16,12 @@ public class TimecardDA {
 
     public static ArrayList<Timecard> Timecards = new ArrayList<Timecard>();
 
+   // public static void add(Timecard tc) {
+     //   tc.set Id(Timecards.size());
+     //   Timecards.add(tc);
+  //  }
 //started adding timecards
+
     public static void initialize() {
 
         Timecard a;
@@ -40,12 +45,8 @@ public class TimecardDA {
         Timecards.add(a);
     }
     //hourlyemployee will call get employeeid
-    
-    //
-    
-    
-    
 
+    //
     public static ArrayList<Timecard> getTimecard() {
         return Timecards;
     }
