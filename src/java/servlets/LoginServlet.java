@@ -56,29 +56,33 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         PayrollSystemDA.initialize();
+        HttpSession session = request.getSession();
         String username = request.getParameter("UserID");
         String password = request.getParameter("Password");
+        Employee loggedIn = null;
 
-        //PayrollSystem will be initialized into this for checking that UserID and Password match
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            
-            
-            Employee loggedIn = PrSystem.Login(username, password);
-            HttpSession session = request.getSession();
+        try {
+            loggedIn = PrSystem.Login(username, password);
+            session.setAttribute("employee", loggedIn);
+            if (loggedIn == (null)) {
+                throw new LoginException("Access denied - Username and password are incorrect");
+                     
+            }
             session.setAttribute("username", username);
             session.setAttribute("password", password);
             session.setAttribute("employee", loggedIn);
             response.sendRedirect("welcome.jsp");
 
+        } catch (LoginException ex) {
+            request.setAttribute("msg", ex.getMessage());
+            response.sendRedirect("login.jsp");
+
         }
         return null;
+        
     }
-        /*   if (loggedIn==Employees) {
+
+/*   if (loggedIn==Employees) {
                     HttpSession session = request.getSession();
                     
                     
@@ -103,7 +107,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("msg", ex.getMessage());
                 response.sendRedirect("login.jsp");
             }
-         *//*
+ *//*
         out.println("<title>Servlet LoginServlet</title>");
         out.println("</head>");
         out.println("<body>");
@@ -115,19 +119,18 @@ public class LoginServlet extends HttpServlet {
     }
 
 return null;*/
-    
-    
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+/**
+ * Handles the HTTP <code>GET</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
