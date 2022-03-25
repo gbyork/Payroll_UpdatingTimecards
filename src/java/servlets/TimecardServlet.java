@@ -84,8 +84,12 @@ public class TimecardServlet extends HttpServlet {
             Employee employees = (Employee) session.getAttribute("employee");
             ID = Integer.parseInt(timecardIDString);
             Timecard timecards = Timecard.find(ID);
+            
+           // updateTimecard(timecards);
+           // session.setAttribute("cart", cart);
+            
             response.sendRedirect("timecard.jsp");
-
+            
             /*
             Cart cart = (Cart) session.getAttribute("cart");
             String productCode = request.getParameter("productCode");
@@ -98,7 +102,53 @@ public class TimecardServlet extends HttpServlet {
             session.setAttribute("cart", cart);*/
            
         }
-
+        //making back out options so user isn't trapped on pages
+        if (option.equals("cancel")){
+            
+            response.sendRedirect("timecardList.jsp");    
+        }
+        
+        if (option.equals("back")){
+            
+            response.sendRedirect("welcome.jsp"); 
+        }
+        
+        if (option.equals("add")) {
+            //Employee employees is duplication code probably not needed
+            Timecard timecards = (Timecard) session.getAttribute("timecards");
+            Employee employees = (Employee) session.getAttribute("employee");
+            int ID;
+            String timecardIDString = request.getParameter("timecardID");
+            ID = Integer.parseInt(timecardIDString);
+            Timecard timecards = Timecard.find(ID);
+            response.sendRedirect("timecard.jsp");
+        }
+         
+          if (option.equals("update")){
+            Timecard timecards = (Timecard) session.getAttribute("timecards");
+            Employee employees = (Employee) session.getAttribute("employee");
+            int HourQuantity;
+            int OvertimeQuantity;
+            
+           // String productCode = request.getParameter("productCode");
+           
+            String HourQuantityString = request.getParameter("hoursWorked");
+            String OvertimeQuantityString = request.getParameter("overtimeHours");
+            String quantityString = request.getParameter("quantity");
+            
+            try {
+                quantity = Integer.parseInt(quantityString);
+            }
+            
+            catch (NumberFormatException e) {
+                quantity = 1;
+            }
+            
+            cart.updateItem(productCode, quantity);
+            session.setAttribute("cart", cart);
+            
+            url = "/cart.jsp";
+        }
 
         /*
          if (option.equals("delete")) {
@@ -204,6 +254,14 @@ public class TimecardServlet extends HttpServlet {
 // 3/22/2022 got PayrollSystemDA implemented into servlet code, problem with employee appearing as null
 //still happening.
 //Big moves by making timecardList.jsp changes and timecard.jsp
+// 3/25/2022 HUGGGGE moves!!!! got timecard information displaying for correct employee
+//was able to fix issue by implementing a lot of Strong's lab 1
+//got CRUD methods correct and moved to proper class, timecard
+//added find methods for timecard
+//
+
+
+
 // Lab 3 code from class
 /* 
 private static DateFormat dateFormatShort = DateFormat.getDateInstance(DateFormat.SHORT);

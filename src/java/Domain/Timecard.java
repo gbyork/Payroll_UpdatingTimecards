@@ -42,7 +42,10 @@ public class Timecard implements Serializable {
     public static ArrayList<Timecard> getEmployeeTimecards(int ID, Date begDate, Date endDate) {
         return TimecardDA.getEmployeeTimecards(ID, begDate, endDate);
     }
-
+   
+   
+    
+    
     public int getID() {
         return ID;
     }
@@ -78,7 +81,8 @@ public class Timecard implements Serializable {
     public static Timecard find(int ID) {
         return TimecardDA.find(ID);
     }
-
+    
+    
     public void addTimeCard(Timecard tc) {
         if (Timecards == null) {
             Timecards = new ArrayList<>();
@@ -122,6 +126,7 @@ public class Timecard implements Serializable {
         }
         return idx;
     }
+    
 
     //Timecard.getEmployeeTimecards(employees.getEmployeeID())
     // CRUD - Create Read Update Delete implementing this concept into

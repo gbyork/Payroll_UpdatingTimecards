@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+         <link rel="stylesheet" href="styles/main.css" type="text/css"/> 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>  </title>
     </head>
@@ -24,8 +25,15 @@
             <c:forEach var="card" items="${timecards}">
                 <tr>
                     <td>${card.employeeID}</td>
-                    <td class = "right"> <input type=text name="hoursWorked" value="<c:out value='${card.hoursWorked}'/>" id="hoursWorked"></td>
-                    <td class = "right"><input type=text name="overtimeHours" value="<c:out value='${card.overtimeHours}'/>" id="overtimeHours"></td>
+                    <td>
+                    <form action="" method="post">
+                    
+                    <input type="hidden" name="option" value="update">
+                    <input type=text name="hoursWorked" value="<c:out value='${card.hoursWorked}'/>" id="hoursWorked">
+                    <input type=text name="overtimeHours" value="<c:out value='${card.overtimeHours}'/>" id="overtimeHours">
+                    <input type="submit" value="Update">
+                    </form>
+                    </td>
                     <td>
                         <form action="timecard" method="post">
                             <input type="hidden" name="option" value="edit">
@@ -37,7 +45,10 @@
                 </tr>
             </c:forEach>  
         </table>
-        
+        <form action="timecard" method="post">
+            <input type="hidden" name="option" value="cancel">
+            <input type="submit" value="Cancel">
+        </form>
     </body>
 </html>
 

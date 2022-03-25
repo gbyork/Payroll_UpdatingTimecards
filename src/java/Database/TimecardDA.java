@@ -23,6 +23,8 @@ public class TimecardDA {
         return null;
     }
     
+    
+    
     public static void initialize(){
         Calendar calendar = Calendar.getInstance();
         Timecard t;
