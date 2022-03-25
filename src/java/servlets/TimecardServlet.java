@@ -71,16 +71,34 @@ public class TimecardServlet extends HttpServlet {
 
             session.setAttribute("timecards", timecards);
 
-            if (timecards==null) {
+            if (timecards == null) {
                 session.setAttribute("SalaryMsg", SalaryMsg);
             }
             response.sendRedirect("timecardList.jsp");
         }
 
-        if (option.equals("add")) {
-
+        if (option.equals("edit")) {
+            //Employee employees is duplication code probably not needed
+            int ID;
+            String timecardIDString = request.getParameter("timecardID");
+            Employee employees = (Employee) session.getAttribute("employee");
+            ID = Integer.parseInt(timecardIDString);
+            Timecard timecards = Timecard.find(ID);
             response.sendRedirect("timecard.jsp");
+
+            /*
+            Cart cart = (Cart) session.getAttribute("cart");
+            String productCode = request.getParameter("productCode");
+            Product product = Product.find(productCode);            
+            
+            LineItem item = new LineItem();
+            item.setProduct(product);
+            item.setQuantity(1);
+            cart.addItem(item);
+            session.setAttribute("cart", cart);*/
+           
         }
+
 
         /*
          if (option.equals("delete")) {
@@ -215,4 +233,4 @@ return numberFormat.format(hoursWorked;
 
 
 
-*/
+ */

@@ -15,9 +15,9 @@ public class TimecardDA {
         employeeTimecards.add(tc);  
     }
     
-    public static Timecard find (Timecard tc) {
+    public static Timecard find (int ID) {
         for (int i = 0; i < employeeTimecards.size(); i++) {
-            if (tc.ID == employeeTimecards.get(i).getID())
+            if (ID == employeeTimecards.get(i).getID())
                 return employeeTimecards.get(i);
         }
         return null;
