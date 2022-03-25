@@ -25,8 +25,8 @@
             </tr>
             <c:forEach var="card" items="${timecards}">
                 <tr>
-                    <td>${card.EmployeeID}</td>
-                    <td class = "right">${card.HoursWorked}</td>
+                    <td>${card.employeeID}</td>
+                    <td class = "right">${card.hoursWorked}</td>
                     <td>
                         <form action="timecard" method="post">
                             <input type="hidden" name="option" value="edit">
@@ -35,8 +35,7 @@
                         </form>
                     </td>
                 </tr>
-            </c:forEach>
-                
+            </c:forEach>  
         </table>
          <form action="timecard" method="post">
             <input type="hidden" name="option" value="add">

@@ -1,95 +1,79 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Domain;
 
-import Database.EmployeeDA;
-import Database.PayrollDA;
 import Database.TimecardDA;
-import Domain.Employee;
 import java.io.Serializable;
+import java.text.DateFormat;
+
 import java.util.ArrayList;
+
 import java.util.Date;
 
-/**
- *
- * @author rando
- */
 public class Timecard implements Serializable{
-
-    public Date Date;
-    public int EmployeeID;
-    public double HoursWorked;
-    public double Overtime;
-    public int Id; 
-
-    public Timecard() {
-
-    }
-
-    public Timecard(Date Date, int EmployeeID, double HoursWorked, double Overtime) {
-        this.Date = Date;
-        this.EmployeeID = EmployeeID;
-        this.HoursWorked = HoursWorked;
-        this.Overtime = Overtime;
-    }
+    private Date date;
+    private int employeeID;
+    private double hoursWorked;
+    private double overtimeHours;
+    private int ID;
+  
     
-    
+   /* public void add() {
+        TimecardDA.add(this);
+    }*/
 
     public Date getDate() {
-        return Date;
+        return date;
     }
-
-    public void setDate(Date Date) {
-        this.Date = Date;
+    
+    public String getDateFormatted(){
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+        return dateFormat.format(date);
     }
 
     public int getEmployeeID() {
-        return EmployeeID;
+        return employeeID;
+    }
+    
+    public static ArrayList<Timecard> getEmployeeTimecards(int ID){
+        return TimecardDA.getEmployeeTimecards(ID);
+    }
+    
+    public static ArrayList<Timecard> getEmployeeTimecards(int ID, Date begDate, Date endDate) {
+        return TimecardDA.getEmployeeTimecards(ID, begDate, endDate);
     }
 
-    public void setEmployeeID(int EmployeeID) {
-        this.EmployeeID = EmployeeID;
+    public int getID() {
+        return ID;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+    
     public double getHoursWorked() {
-        return HoursWorked;
+        return hoursWorked;
     }
 
-    public void setHoursWorked(double HoursWorked) {
-        this.HoursWorked = HoursWorked;
+    public double getOvertimeHours() {
+        return overtimeHours;
     }
 
-    public double getOvertime() {
-        return Overtime;
-    }
-    
-    public void setOvertime(double Overtime) {
-        this.Overtime = Overtime;
-    }
-    
-    public static ArrayList<Timecard> getTimecard() {
-        return TimecardDA.getTimecard();
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public int getId() {
-        return Id;
+    public void setEmployeeID(int employeeID) {
+        this.employeeID = employeeID;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
-    }
-      
-    
-    //need to link employees and timecard
-   
-     
-    @Override
-    public String toString() {
-        return " Timecard{ " + " Date " + Date + ", HoursWorked= " + HoursWorked + " , EmployeeID= " + EmployeeID + '}';
+    public void setHoursWorked(double hoursWorked) {
+        this.hoursWorked = hoursWorked;
     }
 
+    public void setOvertimeHours(double overtimeHours) {
+        this.overtimeHours = overtimeHours;
+    }
+    // CRUD - Create Read Update Delete implementing this concept into
+    public String toString(){
+        return getDateFormatted() + "  " + employeeID + "  " + hoursWorked + "  " + overtimeHours + ID;
+    }
 }
-

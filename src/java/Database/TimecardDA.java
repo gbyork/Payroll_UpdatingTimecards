@@ -1,54 +1,102 @@
 package Database;
 
-import Domain.Employee;
 import Domain.Timecard;
-import Database.EmployeeDA;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import Domain.HourlyEmployee;
 
-/**
- *
- * @author rando
- */
 public class TimecardDA {
-
-    public static ArrayList<Timecard> Timecards = new ArrayList<Timecard>();
-
-   // public static void add(Timecard tc) {
-     //   tc.set Id(Timecards.size());
-     //   Timecards.add(tc);
-  //  }
-//started adding timecards
-
-    public static void initialize() {
-
-        Timecard a;
-
-        Calendar c = Calendar.getInstance();
-
-        a = new Timecard();
-        c.set(2022, 1, 12);
-        a.setDate(c.getTime());
-        a.setEmployeeID(103);
-        a.setHoursWorked(8);
-        a.setOvertime(0);
-
-        Timecards.add(a);
-        a = new Timecard();
-        c.set(2022, 1, 13);
-        a.setDate(c.getTime());
-        a.setEmployeeID(104);
-        a.setHoursWorked(8);
-        a.setOvertime(0);
-        Timecards.add(a);
+    private static ArrayList<Timecard> timecards = new ArrayList<Timecard>(5);
+    private static ArrayList<Timecard> employeeTimecards = new ArrayList<Timecard>();
+    
+    public static void add(Timecard tc) {
+        tc.setID(employeeTimecards.size());
+        employeeTimecards.add(tc);  
     }
-    //hourlyemployee will call get employeeid
-
-    //
-    public static ArrayList<Timecard> getTimecard() {
-        return Timecards;
+    
+    public static void initialize(){
+        Calendar calendar = Calendar.getInstance();
+        Timecard t;
+        Date date = new Date();
+        
+        calendar.set(2022, 1, 6);
+        date = calendar.getTime();
+        
+        t = new Timecard();
+        t.setDate(date);
+        t.setEmployeeID(1001);
+        t.setHoursWorked(40);
+        t.setOvertimeHours(10);
+     
+        timecards.add(t);
+        
+        calendar.set(2022, 1, 7);
+        date = calendar.getTime();
+        t = new Timecard();
+        t.setDate(date);
+        t.setEmployeeID(1001);
+        t.setHoursWorked(30);
+        t.setOvertimeHours(5);
+        
+        timecards.add(t);
+        
+        calendar.set(2022, 1, 6);
+        date = calendar.getTime();
+        t = new Timecard();
+        t.setDate(date);
+        t.setEmployeeID(1002);
+        t.setHoursWorked(40);
+        t.setOvertimeHours(12.5);
+    
+        timecards.add(t);
+        
+        calendar.set(2022, 1, 7);
+        date = calendar.getTime();
+        t = new Timecard();
+        t.setDate(date);
+        t.setEmployeeID(1002);
+        t.setHoursWorked(40);
+        t.setOvertimeHours(12.5);
+    
+        timecards.add(t);
+        
+        
+        
+    
+        
+        t = new Timecard();
+        t.setDate(date);
+        t.setEmployeeID(1004);
+        t.setHoursWorked(40);
+        t.setOvertimeHours(5);
+        timecards.add(t);
     }
 
+    public static ArrayList<Timecard> getEmployeeTimecards(int ID) {
+        employeeTimecards.clear();
+                
+        for (int i = 0; i < timecards.size(); i++)
+            if (timecards.get(i).getEmployeeID() == ID)
+               
+                employeeTimecards.add(timecards.get(i));
+        
+        return employeeTimecards;
+    }
+    
+    public static ArrayList<Timecard> getEmployeeTimecards(int ID, Date begDate, Date endDate) {
+        employeeTimecards.clear();
+        Timecard timecard = null;
+                
+        for (int i = 0; i < timecards.size(); i++){
+            timecard = timecards.get(i);
+
+            if (timecard.getEmployeeID() == ID){
+                if(timecard.getDate().compareTo(begDate) >= 0 && timecard.getDate().compareTo(endDate) <= 0)
+                    employeeTimecards.add(timecard);
+            }
+        }
+        
+        return employeeTimecards;
+    }
 }

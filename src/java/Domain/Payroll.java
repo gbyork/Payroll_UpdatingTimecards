@@ -1,114 +1,123 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Domain;
 
-import Database.EmployeeDA;
 import Database.PayrollDA;
-import Database.TimecardDA;
-import Database.WithholdingDA;
 import java.io.Serializable;
+import java.text.DateFormat;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
+
 import java.util.Date;
 
-/**
- *
- * @author rando
- */
-public class Payroll implements Serializable {
-
-    public Date Date;
-    public int EmployeeID;
-    public double GrossPay;
-    public double TotalDeductions;
-    public double NetPay;
-
-    public Payroll() {
-
+public class Payroll implements Serializable{
+    private Date date;
+    private int employeeID;
+    private double grossPay;
+    private double totalDeductions;
+    private double netPay;
+    
+    public void add() {
+        PayrollDA.add(this);
     }
-
-    public Payroll(Date Date, int EmployeeID, double GrossPay, double TotalDeductions, double NetPay) {
-        this.Date = Date;
-        this.EmployeeID = EmployeeID;
-        this.GrossPay = GrossPay;
-        this.TotalDeductions = TotalDeductions;
-        this.NetPay = NetPay;
-
+    
+    public static void calculatePayroll(Date date) {
+        ArrayList<Employee> employees = Employee.getEmployees();
+        ArrayList<WithholdingType>withholdingTypes = WithholdingType.getWithholdingTypes(); 
+        
+        Payroll payroll;
+        Employee emp;
+        WithholdingType withholding;
+        double grossPay;
+        double totalDeductions;
+        double netPay;
+        
+        for(int i = 0; i < employees.size(); i++) {
+            emp = employees.get(i);
+            System.out.println(emp);
+            grossPay = emp.calculateGrossPay(date);
+            totalDeductions = 0;
+            for (int n = 0; n < withholdingTypes.size(); n++) {
+                withholding = withholdingTypes.get(n);
+                totalDeductions += grossPay * withholding.getRate() / 100 + withholding.getAmount();
+            }
+            netPay = grossPay - totalDeductions;
+                        
+            payroll = new Payroll();
+            payroll.setDate(date);
+            payroll.setEmployeeID(emp.getEmployeeID());
+            payroll.setGrossPay(grossPay);
+            payroll.setTotalDeductions(totalDeductions);
+            payroll.setNetPay(netPay);
+            payroll.add();
+        }
     }
 
     public Date getDate() {
-        return Date;
+        return date;
     }
-
-    public void setDate(Date Date) {
-        this.Date = Date;
+    
+    public String getDateFormatted(){
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+        return dateFormat.format(date);
     }
 
     public int getEmployeeID() {
-        return EmployeeID;
-    }
-
-    public void setEmployeeID(int EmployeeID) {
-        this.EmployeeID = EmployeeID;
+        return employeeID;
     }
 
     public double getGrossPay() {
-        return GrossPay;
+        return grossPay;
     }
-
-    public void setGrossPay(double GrossPay) {
-        this.GrossPay = GrossPay;
-    }
-
-    public double getTotalDeductions() {
-        return TotalDeductions;
-    }
-
-    public void setTotalDeductions(double TotalDeductions) {
-        this.TotalDeductions = TotalDeductions;
+    
+    public String getGrossPayFormatted(){
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        return currency.format(grossPay);
     }
 
     public double getNetPay() {
-        return NetPay;
-    }
-
-    public void setNetPay(double NetPay) {
-        this.NetPay = NetPay;
-    }
-
-    public static ArrayList<Payroll> getPayrolls() {
-        return PayrollDA.getPayrolls();
+        return netPay;
     }
     
-    
-    
-    
-  /*  public double NetPayCalculation(Double NetPay) {
-    return GrossPay - TotalDeductions;
+    public String getNetPayFormatted(){
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        return currency.format(netPay);
     }
-    */
-    // calculate payroll in here     
-
-    //calculategross pay in employee.java do nothing with it just return 0
-    //its used as a default
-    //hourly employee calculategrosspay
-    //salary employee calculategrosspay would just be AnnualSalary / 52
     
-
-    
-    //call employee to calculate grosspay for 
-    //employee loop inside of it look for calculategrosspay to get grosspay
-    //loop through withholding types in the employee loop
-    // grosspay minus  total deductions = netpay
-    
-
-    public String toString() {
-        return " Payroll Date and Employees { " + " Date " + Date +  " This Day Was Worked By EmployeeID= " + EmployeeID + '}';
+    public static ArrayList<Payroll> getPayrollRecords() {
+        return PayrollDA.getPayrollRecords();
     }
-    //idea for looping through employees and if they match to calculate gross pay */
+
+    public double getTotalDeductions() {
+        return totalDeductions;
+    }
+    
+    public String getTotalDeductionsFormatted(){
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        return currency.format(totalDeductions);
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setEmployeeID(int employeeID) {
+        this.employeeID = employeeID;
+    }
+
+    public void setGrossPay(double grossPay) {
+        this.grossPay = grossPay;
+    }
+
+    public void setNetPay(double netPay) {
+        this.netPay = netPay;
+    }
+
+    public void setTotalDeductions(double totalDeductions) {
+        this.totalDeductions = totalDeductions;
+    }
+    
+    public String toString(){
+        Employee emp = Employee.find(employeeID);
+        return getDateFormatted() + "  " + employeeID + "  " + emp.getLastName() + ",  "+ emp.getFirstName() + "  " + getGrossPayFormatted() + "  " + getTotalDeductionsFormatted() + "  " + getNetPayFormatted();
+    }
 }
-
-//Create a Payroll class with the attributes: date, employee ID, gross pay, total deductions, and net 
-//pay.  Add all of the get and set methods for the attributes.  

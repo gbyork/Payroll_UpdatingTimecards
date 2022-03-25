@@ -17,7 +17,7 @@ import Database.PayrollDA;
 import Database.EmployeeDA;
 import Database.PayrollSystemDA;
 import Database.TimecardDA;
-import Database.WithholdingDA;
+import Database.WithholdingTypeDA;
 import Domain.Employee;
 import Presentation.LoginException;
 import java.util.ArrayList;

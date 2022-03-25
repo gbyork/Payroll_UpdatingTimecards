@@ -1,95 +1,77 @@
 package Database;
 
 import Domain.Employee;
-import Domain.SalaryEmployee;
 import Domain.HourlyEmployee;
-import Domain.Timecard;
-import java.io.PrintStream;
+import Domain.SalaryEmployee;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
 
-/**
- *
- * @author rando
- */
 public class EmployeeDA {
-
-    private static ArrayList<Employee> Employees = new ArrayList<Employee>();
     
+    private static ArrayList<Employee> employees = new ArrayList<Employee>(5);
+    
+    public static void add(Employee emp) {
+        employees.add(emp);
+    }
+    
+    public static Employee find(int ID){
+        for (int i = 0; i < employees.size(); i++)
+            if (employees.get(i).getEmployeeID() == ID)
+                return employees.get(i);
+        return null;
+    }
+    
+    public static void initialize(){
+        Employee e;
         
-    public static void initialize() {
-        Employee a;
-
-
-
-        Random random = new Random(); 
-        a = new HourlyEmployee();
-        a.setFirstName("Robert");
-        a.setLastName("Jones");
-        a.setHourlyRate(40);
-        a.setOvertime(4);
-        a.setEmployeeID(103);
-        a.setSocialSecurityNumber(523094784);
-        a.setUserID("User1");
-        a.setPassword("user1");
+        e = new HourlyEmployee();
+        e.setEmployeeID(1001);
+        e.setFirstName("Alice");
+        e.setLastName("Fontana");
+        e.setSSN(123445555);
+        e.setHourlyRate(10.0);
+        e.setOvertimeRate(1.5);
+        e.setUserID("User1");
+        e.setPassword("user1");
+        e.add();
+        
+        e = new HourlyEmployee();
+        e.setEmployeeID(1002);
+        e.setFirstName("Thomas");
+        e.setLastName("Arlinton");
+        e.setSSN(123445555);
+        e.setHourlyRate(12.50);
+        e.setOvertimeRate(1.5);
+        e.setUserID("User2");
+        e.setPassword("user2");
+        e.add();
+        
+        e = new SalaryEmployee();
+        e.setEmployeeID(1003);
+        e.setFirstName("Bob");
+        e.setLastName("Smith");
+        e.setSSN(123445555);
+        e.setSalary(52000);
+        e.setUserID("User3");
+        e.setPassword("user3");
+        e.add();
         
         
-        for (int i = 0; i < (random.nextInt(99) + 1); i++) {
-            Timecard t = new Timecard(); 
-            t.Date = new Date(); 
-            t.EmployeeID = 103; 
-            double min = 0.1; 
-            double max = 70.0; 
-            double x = (Math.random() * ((max - min) + 1)) + min; 
-            double xround = Math.round(x * 100.0) / 100.0; 
-            t.HoursWorked =xround; 
-            t.Overtime = 0.5; 
-            t.Id = i+1; 
-            a.addTimeCard(t);
-        }
-        Employees.add(a);
-        
-        a = new HourlyEmployee();
-        a.setFirstName("Justin");
-        a.setLastName("James");
-        a.setHourlyRate(40);
-        a.setOvertime(2);
-        a.setEmployeeID(104);
-        a.setSocialSecurityNumber(523094386);
-        a.setUserID("User2");
-        a.setPassword("user2");
-        Employees.add(a);
-        
-        a = new SalaryEmployee();
-        a.setFirstName("Bob");
-        a.setLastName("Smith");
-        a.setAnnualSalary(500);
-        a.setEmployeeID(101);
-        a.setSocialSecurityNumber(555121212);
-        a.setUserID("User3");
-        a.setPassword("user3");
-        Employees.add(a);
-
-        a = new SalaryEmployee();
-        a.setFirstName("John");
-        a.setLastName("Doe");
-        a.setAnnualSalary(1200);
-        a.setEmployeeID(102);
-        a.setSocialSecurityNumber(555121213);
-        a.setUserID("User4");
-        a.setPassword("user4");
-        Employees.add(a);
-
+        e = new SalaryEmployee();
+        e.setEmployeeID(1004);
+        e.setFirstName("Kim");
+        e.setLastName("Johnson");
+        e.setSSN(123445555);
+        e.setSalary(65000);
+        e.setUserID("User4");
+        e.setPassword("user4");
+        e.add();
         
 
-      
     }
 
-    //return employees 
     public static ArrayList<Employee> getEmployees() {
-        return Employees;
+        return employees;
     }
-
-
+    
 }

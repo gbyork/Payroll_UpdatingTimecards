@@ -6,13 +6,7 @@
 package Presentation;
 
 import Domain.Employee;
-import Domain.SalaryEmployee;
-import Domain.HourlyEmployee;
-import Database.EmployeeDA;
-import Database.PayrollDA;
-import Database.PayrollSystemDA;
-import Domain.Timecard;
-import java.io.Serializable;
+
 import java.util.ArrayList;
 
 /**

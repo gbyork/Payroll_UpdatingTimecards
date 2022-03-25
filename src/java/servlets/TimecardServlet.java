@@ -6,6 +6,7 @@
 package servlets;
 
 import Database.EmployeeDA;
+import Database.PayrollSystemDA;
 import Domain.Employee;
 import Domain.HourlyEmployee;
 import Domain.SalaryEmployee;
@@ -45,7 +46,7 @@ public class TimecardServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        PayrollSystemDA.initialize();
         ServletContext sc = getServletContext();
         HttpSession session = request.getSession();
 
@@ -56,31 +57,28 @@ public class TimecardServlet extends HttpServlet {
             String NotReady = "This feature has not been added yet";
             session.setAttribute("NotReady", NotReady);
             response.sendRedirect("welcome.jsp");
-
             //edit will have hidden element TimecardID (timecardID will be added to domain.timecard)
         }
-        String url = "/welcome.jsp";
+        
+        
+     
+        
 
         //list screen will have add button at bottom and a return button to the welcome page
         if (option.equals("list")) {
+            //employee info
             Employee employees = (Employee) session.getAttribute("employee");
             System.out.println("employee: " + employees);
-            
-            ArrayList<Timecard> EmployeeTimecards = employees.EmployeeTimecards;
-            System.out.println("timecard: " + EmployeeTimecards);
-          //  session.setAttribute("timecards", EmployeeTimecards);
             session.setAttribute("employee", employees);
-            if (employees == null) {
-                response.sendRedirect("timecardList.jsp");
-            } else {
-              //   ArrayList<Timecard> EmployeeTimecards = employees.EmployeeTimecards;
-
-                System.out.println("timecard: " + EmployeeTimecards);
-                session.setAttribute("employee", employees);
-                // session.setAttribute("timecards", EmployeeTimecards);
-                response.sendRedirect("timecardList.jsp");
-
-            }}
+           
+            
+            ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employees.getEmployeeID());
+            System.out.println("timecard: " + timecards);
+            session.setAttribute("timecards", timecards);
+            response.sendRedirect("timecardList.jsp");
+        }    
+        
+            
         if (option.equals("add")) {
 
                 response.sendRedirect("timecard.jsp");
@@ -130,7 +128,7 @@ public class TimecardServlet extends HttpServlet {
     //Strong had good advice, ONE STEP AT A TIME break up parts
              */
         }
-
+    
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
