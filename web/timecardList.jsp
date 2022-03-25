@@ -16,6 +16,7 @@
     <body>
         
         <h1>List Timecards</h1>
+        <h2> ${SalaryMsg} </h2>
         <table>
             <tr>
                 <th>Employee</th>
@@ -40,8 +41,8 @@
          <form action="timecard" method="post">
             <input type="hidden" name="option" value="add">
             <input type="submit" value="Add">
-            <label> Add </label>
-            <span> </span><br>
+            
+           
         </form>
     </body>
 </html>

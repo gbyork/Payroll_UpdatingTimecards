@@ -14,6 +14,7 @@ public abstract class Employee implements Serializable{
     private long SSN;
     public String UserID;
     public String Password;
+    
     public void add() {
         EmployeeDA.add(this);
     }
@@ -83,8 +84,16 @@ public abstract class Employee implements Serializable{
     public void setSSN(long SSN) {
         this.SSN = SSN;
     }
-    
+   
+
+    public double getHourlyrate() {
+        return 0.0;
+    }
+    @Override
     public String toString(){
+       
         return employeeID + "  " + lastName + ", " + firstName + "  " + SSN ;
+        
+        
     }
 }

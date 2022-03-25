@@ -42,8 +42,6 @@ public class TimecardServlet extends HttpServlet {
     //     EmployeeDA empDb = new EmployeeDA();
     //     TimecardDA timeDb = new TimecardDA();
     // }
-    
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PayrollSystemDA.initialize();
@@ -59,32 +57,32 @@ public class TimecardServlet extends HttpServlet {
             response.sendRedirect("welcome.jsp");
             //edit will have hidden element TimecardID (timecardID will be added to domain.timecard)
         }
-        
-        
-     
-        
 
         //list screen will have add button at bottom and a return button to the welcome page
         if (option.equals("list")) {
             //employee info
+            String SalaryMsg = "You are a salary employee";
             Employee employees = (Employee) session.getAttribute("employee");
             System.out.println("employee: " + employees);
             session.setAttribute("employee", employees);
-           
-            
+
             ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employees.getEmployeeID());
             System.out.println("timecard: " + timecards);
+
             session.setAttribute("timecards", timecards);
+
+            if (timecards==null) {
+                session.setAttribute("SalaryMsg", SalaryMsg);
+            }
             response.sendRedirect("timecardList.jsp");
-        }    
-        
-            
+        }
+
         if (option.equals("add")) {
 
-                response.sendRedirect("timecard.jsp");
+            response.sendRedirect("timecard.jsp");
         }
-       
-            /*
+
+        /*
          if (option.equals("delete")) {
             Employee employees = (Employee) session.getAttribute("employee");
             ArrayList<Timecard> EmployeeTimecards = employees.EmployeeTimecards;
@@ -126,9 +124,8 @@ public class TimecardServlet extends HttpServlet {
     //  response.sendRedirect("timecardList.jsp");
 
     //Strong had good advice, ONE STEP AT A TIME break up parts
-             */
-        }
-    
+         */
+    }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -189,8 +186,6 @@ public class TimecardServlet extends HttpServlet {
 // 3/22/2022 got PayrollSystemDA implemented into servlet code, problem with employee appearing as null
 //still happening.
 //Big moves by making timecardList.jsp changes and timecard.jsp
-
-
 // Lab 3 code from class
 /* 
 private static DateFormat dateFormatShort = DateFormat.getDateInstance(DateFormat.SHORT);

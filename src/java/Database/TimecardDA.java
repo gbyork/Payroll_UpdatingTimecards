@@ -15,6 +15,14 @@ public class TimecardDA {
         employeeTimecards.add(tc);  
     }
     
+    public static Timecard find (Timecard tc) {
+        for (int i = 0; i < employeeTimecards.size(); i++) {
+            if (tc.ID == employeeTimecards.get(i).getID())
+                return employeeTimecards.get(i);
+        }
+        return null;
+    }
+    
     public static void initialize(){
         Calendar calendar = Calendar.getInstance();
         Timecard t;
