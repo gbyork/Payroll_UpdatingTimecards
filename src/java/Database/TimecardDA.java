@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TimecardDA {
-    private static ArrayList<Timecard> timecards = new ArrayList<Timecard>(5);
+    public static ArrayList<Timecard> timecards = new ArrayList<Timecard>(5);
     private static ArrayList<Timecard> employeeTimecards = new ArrayList<Timecard>();
     
     public static void add(Timecard tc) {
@@ -82,7 +82,7 @@ public class TimecardDA {
         t.setOvertimeHours(5);
         timecards.add(t);
     }
-
+   
     public static ArrayList<Timecard> getEmployeeTimecards(int ID) {
         employeeTimecards.clear();
                 
@@ -108,5 +108,8 @@ public class TimecardDA {
         }
         
         return employeeTimecards;
+    }
+    public static ArrayList<Timecard> getTimecards() {
+    return timecards;
     }
 }

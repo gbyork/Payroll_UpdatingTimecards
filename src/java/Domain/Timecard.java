@@ -15,7 +15,7 @@ public class Timecard implements Serializable {
     private double hoursWorked;
     private double overtimeHours;
     public int ID;
-    public ArrayList<Timecard> Timecards;
+    public ArrayList<Timecard> timecards;
 
     /* public void add() {
         TimecardDA.add(this);
@@ -82,19 +82,26 @@ public class Timecard implements Serializable {
         return TimecardDA.find(ID);
     }
     
+    public static ArrayList<Timecard> getTimecards() {
+        return TimecardDA.timecards;
+    }
+    
+    //add, update, delete, find
+    //applying some CRUD!!
+    
     
     public void addTimeCard(Timecard tc) {
-        if (Timecards == null) {
-            Timecards = new ArrayList<>();
+        if (timecards == null) {
+            timecards = new ArrayList<>();
         }
-        Timecards.add(tc);
+        timecards.add(tc);
     }
 
     public Timecard getTimecard(int id) {
-        if (Timecards == null) {
+        if (timecards == null) {
             return null;
         } else {
-            for (Timecard tc : this.Timecards) {
+            for (Timecard tc : this.timecards) {
                 if (id == tc.ID) {
 
                     return tc;
@@ -106,26 +113,27 @@ public class Timecard implements Serializable {
 
     public void updateTimecard(Timecard tc) {
         if (this.getIndexOfTimecard(tc) > 0) {
-            this.Timecards.set(this.getIndexOfTimecard(tc), tc);
+            this.timecards.set(this.getIndexOfTimecard(tc), tc);
         }
     }
 
     public void deleteTimecard(Timecard tc) {
         if (this.getIndexOfTimecard(tc) > 0) {
-            this.Timecards.remove(this.getIndexOfTimecard(tc));
+            this.timecards.remove(this.getIndexOfTimecard(tc));
         }
     }
 
     private int getIndexOfTimecard(Timecard t) {
         Timecard match;
         int idx = 0;
-        for (Timecard tc : this.Timecards) {
+        for (Timecard tc : this.timecards) {
             if (t.ID == tc.ID) {
-                idx = this.Timecards.indexOf(tc);
+                idx = this.timecards.indexOf(tc);
             }
         }
         return idx;
     }
+    
     
 
     //Timecard.getEmployeeTimecards(employees.getEmployeeID())

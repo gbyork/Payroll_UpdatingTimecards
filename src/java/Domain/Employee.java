@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.ArrayList;
 
 public abstract class Employee implements Serializable{
-    private int employeeID;
+    public int employeeID;
     private String firstName;
     private String lastName;
     private long SSN;

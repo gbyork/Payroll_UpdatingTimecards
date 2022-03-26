@@ -15,6 +15,10 @@ import Presentation.PayrollSystem;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -45,7 +49,7 @@ public class TimecardServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PayrollSystemDA.initialize();
-        ServletContext sc = getServletContext();
+        //ServletContext sc = getServletContext();
         HttpSession session = request.getSession();
 
         String option = request.getParameter("option");
@@ -63,11 +67,11 @@ public class TimecardServlet extends HttpServlet {
             //employee info
             String SalaryMsg = "You are a salary employee";
             Employee employees = (Employee) session.getAttribute("employee");
-            System.out.println("employee: " + employees);
+            //System.out.println("employee: " + employees);
             session.setAttribute("employee", employees);
 
             ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employees.getEmployeeID());
-            System.out.println("timecard: " + timecards);
+            //System.out.println("timecard: " + timecards);
 
             session.setAttribute("timecards", timecards);
 
@@ -83,7 +87,9 @@ public class TimecardServlet extends HttpServlet {
             String timecardIDString = request.getParameter("timecardID");
             Employee employees = (Employee) session.getAttribute("employee");
             ID = Integer.parseInt(timecardIDString);
-            Timecard timecards = Timecard.find(ID);
+            Timecard timecards = (Timecard.find(ID));
+            
+            //JUST getParameters from textboxes and set them as hoursWorked and whatnot
             
            // updateTimecard(timecards);
            // session.setAttribute("cart", cart);
@@ -112,18 +118,53 @@ public class TimecardServlet extends HttpServlet {
             
             response.sendRedirect("welcome.jsp"); 
         }
+        if (option.equals("addpage")) {
+            Employee employees = (Employee) session.getAttribute("employee");
+            ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employees.getEmployeeID());
+            
+            Timecard addedtimecard = new Timecard();
+            Calendar calendar = Calendar.getInstance();
+            Timecard t;
+            Date date = new Date();
+        
+            calendar.set(2022, 1, 8);
+            date = calendar.getTime();
+            addedtimecard.setHoursWorked(1.0);
+            addedtimecard.setOvertimeHours(1.0);
+            addedtimecard.setDate(date);
+            
+            
+            timecards.addTimeCard(addedtimecard);
+            
+            session.setAttribute("timecards",timecards);
+            
+            response.sendRedirect("addPage.jsp");
+        }
         
         if (option.equals("add")) {
             //Employee employees is duplication code probably not needed
-            Timecard timecards = (Timecard) session.getAttribute("timecards");
             Employee employees = (Employee) session.getAttribute("employee");
             int ID;
+            
             String timecardIDString = request.getParameter("timecardID");
             ID = Integer.parseInt(timecardIDString);
             Timecard timecards = Timecard.find(ID);
-            response.sendRedirect("timecard.jsp");
+            String HourQuantityString = request.getParameter("hoursWorked");
+            String OvertimeQuantityString = request.getParameter("overtimeHours");
+            //need to add date
+            
+            
+              //      Timecard addedTimeCard = new Timecard(date,employees.employeeID,);
+              //      timecards.addTimeCard(addedTimeCard);
+            
+            session.setAttribute("timecards",timecards);
+            response.sendRedirect("timecardList.jsp");
+            
+            //add button needs to be like edit so add button on timecardList should be seperate
+            //that one just moves you to a different jsp
         }
-         
+         //make delete button padright to add button that just deletes timecardlike this
+         //timecards.delete.ID(max) or something like that
           if (option.equals("update")){
             Timecard timecards = (Timecard) session.getAttribute("timecards");
             Employee employees = (Employee) session.getAttribute("employee");
