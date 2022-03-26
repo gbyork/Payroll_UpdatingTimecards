@@ -84,6 +84,7 @@ public class Timecard implements Serializable {
     
     public static ArrayList<Timecard> getTimecards() {
         return TimecardDA.timecards;
+        
     }
     
     //add, update, delete, find
@@ -116,6 +117,7 @@ public class Timecard implements Serializable {
             this.timecards.set(this.getIndexOfTimecard(tc), tc);
         }
     }
+        
 
     public void deleteTimecard(Timecard tc) {
         if (this.getIndexOfTimecard(tc) > 0) {

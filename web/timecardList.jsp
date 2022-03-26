@@ -38,9 +38,18 @@
                 </tr>
             </c:forEach>  
         </table>
-         <form action="timecard" method="post">
+        
+        <h3> </h3>
+        <form action="timecard" method="post">
             <input type="hidden" name="option" value="add">
             <input type="submit" value="Add">
+            
+           
+        </form>
+        <h4> Or... </h4>
+        <form action="timecard" method="post">
+            <input type="hidden" name="option" value="delete">
+            <input type="submit" value="Delete">
             
            
         </form>

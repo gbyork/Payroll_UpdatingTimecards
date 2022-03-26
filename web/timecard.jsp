@@ -14,7 +14,7 @@
         <title>  </title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Editing Timecard</h1>
         <table>
             <tr>
                 <th>Employee</th>
@@ -45,6 +45,7 @@
                 </tr>
             </c:forEach>  
         </table>
+        <h1>    </h1>
         <form action="timecard" method="post">
             <input type="hidden" name="option" value="cancel">
             <input type="submit" value="Cancel">

@@ -82,30 +82,25 @@ public class TimecardServlet extends HttpServlet {
         }
 
         if (option.equals("edit")) {
-            //Employee employees is duplication code probably not needed
+          
             int ID;
             String timecardIDString = request.getParameter("timecardID");
             Employee employees = (Employee) session.getAttribute("employee");
             ID = Integer.parseInt(timecardIDString);
-            Timecard timecards = (Timecard.find(ID));
+            Timecard timecards = Timecard.find(ID);
             
-            //JUST getParameters from textboxes and set them as hoursWorked and whatnot
+            Timecard time = new Timecard();
+            time.setEmployeeID(employees.employeeID);
+            time.setHoursWorked(0.0);
+            time.setOvertimeHours(0.0);
             
-           // updateTimecard(timecards);
-           // session.setAttribute("cart", cart);
+            
+            
+            timecards.addTimeCard(time);
             
             response.sendRedirect("timecard.jsp");
             
-            /*
-            Cart cart = (Cart) session.getAttribute("cart");
-            String productCode = request.getParameter("productCode");
-            Product product = Product.find(productCode);            
-            
-            LineItem item = new LineItem();
-            item.setProduct(product);
-            item.setQuantity(1);
-            cart.addItem(item);
-            session.setAttribute("cart", cart);*/
+          
            
         }
         //making back out options so user isn't trapped on pages
@@ -118,6 +113,7 @@ public class TimecardServlet extends HttpServlet {
             
             response.sendRedirect("welcome.jsp"); 
         }
+        
         if (option.equals("addpage")) {
             Employee employees = (Employee) session.getAttribute("employee");
             ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employees.getEmployeeID());
@@ -133,17 +129,16 @@ public class TimecardServlet extends HttpServlet {
             addedtimecard.setOvertimeHours(1.0);
             addedtimecard.setDate(date);
             
-            
-            timecards.addTimeCard(addedtimecard);
-            
+            timecards.add(addedtimecard);
+ 
             session.setAttribute("timecards",timecards);
-            
             response.sendRedirect("addPage.jsp");
         }
         
         if (option.equals("add")) {
-            //Employee employees is duplication code probably not needed
+            
             Employee employees = (Employee) session.getAttribute("employee");
+            
             int ID;
             
             String timecardIDString = request.getParameter("timecardID");
@@ -154,86 +149,56 @@ public class TimecardServlet extends HttpServlet {
             //need to add date
             
             
-              //      Timecard addedTimeCard = new Timecard(date,employees.employeeID,);
-              //      timecards.addTimeCard(addedTimeCard);
+          
+              
             
             session.setAttribute("timecards",timecards);
             response.sendRedirect("timecardList.jsp");
             
-            //add button needs to be like edit so add button on timecardList should be seperate
-            //that one just moves you to a different jsp
+            
         }
          //make delete button padright to add button that just deletes timecardlike this
          //timecards.delete.ID(max) or something like that
           if (option.equals("update")){
-            Timecard timecards = (Timecard) session.getAttribute("timecards");
-            Employee employees = (Employee) session.getAttribute("employee");
-            int HourQuantity;
-            int OvertimeQuantity;
-            
-           // String productCode = request.getParameter("productCode");
            
+            Employee employees = (Employee) session.getAttribute("employee");
+            //int HourQuantity;
+            //int OvertimeQuantity;
+            int ID;
+            
+            String timecardIDString = request.getParameter("timecardID");
+            ID = Integer.parseInt(timecardIDString);
+            Timecard timecards = Timecard.find(ID);
+            
             String HourQuantityString = request.getParameter("hoursWorked");
             String OvertimeQuantityString = request.getParameter("overtimeHours");
-            String quantityString = request.getParameter("quantity");
             
-            try {
-                quantity = Integer.parseInt(quantityString);
-            }
             
-            catch (NumberFormatException e) {
-                quantity = 1;
-            }
+            timecards.updateTimecard(timecards);
+            // timecards.updateTimecard(timecards);
+            session.setAttribute("timecards",timecards);
+           
             
-            cart.updateItem(productCode, quantity);
-            session.setAttribute("cart", cart);
             
-            url = "/cart.jsp";
         }
 
-        /*
+        
          if (option.equals("delete")) {
             Employee employees = (Employee) session.getAttribute("employee");
-            ArrayList<Timecard> EmployeeTimecards = employees.EmployeeTimecards;
-          //  employees.deleteTimecard(tc);
-            session.setAttribute("timecards", EmployeeTimecards);
+            int ID;
+            String timecardIDString = request.getParameter("timecardID");
+            ID = Integer.parseInt(timecardIDString);
+            Timecard timecards = Timecard.find(ID);
             
+            timecards.deleteTimecard(timecards);
+            
+            
+            session.setAttribute("timecards", timecards);
             response.sendRedirect("timecardList.jsp");
-            
+         } 
  
-        }
-        //all that needs to be edited is hoursworked, overtime, and date
-        if (option.equals("edit")) {
-            url = "/timecard.jsp";
-            int quantity;
-            Employee employees = (Employee) session.getAttribute("employee");
-         //   employees.updateTimecard(tc);
-            
-            //String productCode = request.getParameter("productCode");
-           // String quantityString = request.getParameter("quantity");
-
-           // try {
-           //     quantity = Integer.parseInt(quantityString);
-           // } catch (NumberFormatException e) {
-           //     quantity = 1;
-            }
-
-            //       employees.updateTimecard(productCode, quantity);
-            //       session.setAttribute("timecards", EmployeeTimecards);
-            //       url = "/cart.jsp";
-        
-        sc.getRequestDispatcher(url)
-                .forward(request, response);
-    }
-    //    session.setAttribute("");
-    //   employee.addTimeCard(t);
-    //
-    //    ArrayList<Timecard> timecards = Timecard.getEmployeeTimecards(employee.getEmployeeID());
-    //    session.setAttribute("timecards", timecards);
-    //  response.sendRedirect("timecardList.jsp");
-
     //Strong had good advice, ONE STEP AT A TIME break up parts
-         */
+         
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -295,41 +260,14 @@ public class TimecardServlet extends HttpServlet {
 // 3/22/2022 got PayrollSystemDA implemented into servlet code, problem with employee appearing as null
 //still happening.
 //Big moves by making timecardList.jsp changes and timecard.jsp
-// 3/25/2022 HUGGGGE moves!!!! got timecard information displaying for correct employee
-//was able to fix issue by implementing a lot of Strong's lab 1
-//got CRUD methods correct and moved to proper class, timecard
+// 3/24/2022 HUGGGGE moves!!!! got timecard information displaying for correct employee
+//was able to fix issue by implementing Professor Strong's lab 1
+//got CRUD methods corrected and moved to proper class, timecard
 //added find methods for timecard
-//
-
-
-
-// Lab 3 code from class
-/* 
-private static DateFormat dateFormatShort = DateFormat.getDateInstance(DateFormat.SHORT);
-if (option.equals("save")){
-Timecard timecard= (Timecard)session.get.attribute
-id = employee.getEmployeeID();
-String dateString = request.getParameter("date");
-(do this with all date into)
-Date date = new Date()
-try{
-date=dateFormatShort.parse(dateString);
-}
-catch (Exception e){
-System.out.println(e.getMessage());
-}
-double hours= double.parseDouble(hoursString);
-}
-double hours=Double.parseDouble(hoursString);
-
-public String getHoursWorkedFormatted(){
-NumberFormat numberFormat = NumberFormat.getinstance();
-numberFormat.setMinimumFractionDigits(2);
-return numberFormat.format(hoursWorked;
-}
-}
+// 3/25/2022 worked on creating methods in timecard servlet such as
+// add,update,and delete and worked on getting them to correctly call to domain.timecard
+// methods
 
 
 
 
- */

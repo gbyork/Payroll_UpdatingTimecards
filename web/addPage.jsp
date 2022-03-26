@@ -30,7 +30,7 @@
                     <td>
                         <form action="timecard" method="post">
                             <input type="hidden" name="option" value="edit">
-                            <input type="hidden" name="timecardID" value="<c:out value='${card.ID}'/>">
+                            <input type="hidden" name="timecardID" value="<c:out value='${card.Date}'/>">
                             <input type="submit" value="Edit">
                         </form>
                     </td>
